@@ -1,4 +1,4 @@
-package space.intbh.wtl.ui
+package space.intbh.wtl.ui.flowerList
 
 import space.intbh.wtl.model.FlowerModel
 

@@ -1,4 +1,4 @@
-package space.intbh.wtl.ui
+package space.intbh.wtl.ui.flowerList
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
