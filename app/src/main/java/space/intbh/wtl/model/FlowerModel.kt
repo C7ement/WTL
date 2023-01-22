@@ -6,26 +6,26 @@ import com.google.gson.JsonObject
 import space.intbh.wtl.util.getImageFromAssets
 
 enum class Month {
-    January, February, March, April, May, June, July, August, September, October, November, December;
+    Janvier, Février, Mars, Avril, Mai, Juin, Juillet, Aout, Septembre, Octobre, Novembre, Décembre;
     companion object {
         fun fromName(name: String): Month {
             when (name) {
-                "Janvier" -> return January
-                "Février" -> return February
-                "Mars" -> return March
-                "Avril" -> return April
-                "Mai" -> return May
-                "Juin" -> return June
-                "Juillet" -> return July
-                "Aout" -> return August
-                "Septembre" -> return September
-                "Octobre" -> return October
-                "Novembre" -> return November
-                "Décembre" -> return December
+                "Janvier" -> return Janvier
+                "Février" -> return Février
+                "Mars" -> return Mars
+                "Avril" -> return Avril
+                "Mai" -> return Mai
+                "Juin" -> return Juin
+                "Juillet" -> return Juillet
+                "Aout" -> return Aout
+                "Septembre" -> return Septembre
+                "Octobre" -> return Octobre
+                "Novembre" -> return Novembre
+                "Décembre" -> return Décembre
                 else -> {
                     print(name)
                     assert(false)
-                    return January
+                    return Janvier
                 }
             }
         }

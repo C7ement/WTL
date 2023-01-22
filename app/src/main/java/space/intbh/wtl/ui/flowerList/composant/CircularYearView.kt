@@ -13,7 +13,7 @@ import space.intbh.wtl.model.Month
 import kotlin.math.cos
 import kotlin.math.sin
 
-const val DEG_TO_RAD = Math.PI / 180f
+const val DEG_TO_RAD = Math.PI.toFloat() / 180f
 
 @Composable
 fun CircularYearView(months: List<Month>) {
@@ -30,27 +30,27 @@ fun CircularYearView(months: List<Month>) {
 
         for (i in 0..11) {
             if (!monthIndexes.contains(i)) continue
-            val degree = -i * 30 + 90
+            val degree = (-i * 30 - 90  ) * DEG_TO_RAD
 
-            val xStart = center + (innerRadius * cos(degree * DEG_TO_RAD)).toFloat()
-            val yStart = center + (innerRadius * sin(degree * DEG_TO_RAD)).toFloat()
+            val xStart = center + (innerRadius * cos(degree))
+            val yStart = center + (innerRadius * sin(degree))
 
-            val xEnd = center + (outerRadius * cos(degree * DEG_TO_RAD)).toFloat()
-            val yEnd = center + (outerRadius * sin(degree * DEG_TO_RAD)).toFloat()
+            val xEnd = center + (outerRadius * cos(degree))
+            val yEnd = center + (outerRadius * sin(degree))
 
             val backgroundPath = Path().apply {
                 moveTo(xStart, yStart)
                 lineTo(xEnd, yEnd)
                 arcToRad(
                     Rect(Offset.Zero, size),
-                    (degree * DEG_TO_RAD).toFloat(),
-                    (-30 * DEG_TO_RAD).toFloat(),
+                    degree,
+                    (-30 * DEG_TO_RAD),
                     false
                 )
                 arcToRad(
                     Rect(Offset(size.width * 0.1f, size.height * 0.1f), size * 0.8f),
-                    ((degree - 30) * DEG_TO_RAD).toFloat(),
-                    (30 * DEG_TO_RAD).toFloat(),
+                    (degree - 30 * DEG_TO_RAD),
+                    (30 * DEG_TO_RAD),
                     false
                 )
                 close()
