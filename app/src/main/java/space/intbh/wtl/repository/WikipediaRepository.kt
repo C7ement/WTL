@@ -9,12 +9,12 @@ import space.intbh.wtl.model.*
 
 class WikipediaRepository {
     private val wikipediaApi = Retrofit.Builder()
-        .baseUrl("https://en.wikipedia.org/w/")
+        .baseUrl("https://fr.wikipedia.org/w/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(WikipediaApi::class.java)
     private val wikipediaSearchApi = Retrofit.Builder()
-        .baseUrl("https://en.wikipedia.org/w/")
+        .baseUrl("https://fr.wikipedia.org/w/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(WikipediaSearchApi::class.java)
@@ -43,7 +43,7 @@ class WikipediaRepository {
 
     suspend fun searchAndGEtPage(pageTitle: String): String {
 
-        val res = search(pageTitle)
+        val res = search(pageTitle.split("-").first())
         if (res.isEmpty()) return "No Results"
         val res2 = getPageContent(res.first().pageid.toString())
         Log.d(
