@@ -29,6 +29,9 @@ enum class Month {
                 }
             }
         }
+        fun getName(index: Int) : String{
+            return values()[index].name
+        }
     }
 }
 

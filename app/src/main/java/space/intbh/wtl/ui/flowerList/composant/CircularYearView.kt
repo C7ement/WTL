@@ -30,7 +30,7 @@ fun CircularYearView(months: List<Month>) {
 
         for (i in 0..11) {
             if (!monthIndexes.contains(i)) continue
-            val degree = (-i * 30 - 90  ) * DEG_TO_RAD
+            val degree = (90-i * 30    ) * DEG_TO_RAD
 
             val xStart = center + (innerRadius * cos(degree))
             val yStart = center + (innerRadius * sin(degree))
