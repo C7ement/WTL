@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import kotlinx.coroutines.selects.select
 import space.intbh.wtl.repository.FlowerRepository
 import space.intbh.wtl.ui.flowerList.composant.FlowerCard
 import space.intbh.wtl.ui.flowerList.composant.MonthSelectorPopup
@@ -56,16 +57,16 @@ fun FlowerListScreen() {
                 columns = StaggeredGridCells.Fixed(2),
                 Modifier.padding(padding)
             ) {
-                items(uiState.matchingFlowers.size,
-                    itemContent = {
-                        FlowerCard(
-                            uiState.flowerList[it],
-                            desc = uiState.flowerDescriptions[uiState.flowerList[it].name] ?: "",
-                            flipped = viewModel.uiState.value.flippedCards.contains(uiState.flowerList[it]),
-                            onTap = viewModel::flipCard
-                        )
-                    }
-                )
+                val list = uiState.matchingFlowers
+                items(list.size) { index ->
+                    val flower = list[index]
+                    FlowerCard(
+                        flower,
+                        desc = uiState.flowerDescriptions[flower.name] ?: "",
+                        flipped = viewModel.uiState.value.flippedCards.contains(flower),
+                        onTap = viewModel::flipCard
+                    )
+                }
             }
         } else {
             CircularProgressIndicator(Modifier.padding(padding))
