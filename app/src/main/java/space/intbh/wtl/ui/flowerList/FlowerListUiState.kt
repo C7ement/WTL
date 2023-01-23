@@ -6,7 +6,8 @@ import space.intbh.wtl.model.Month
 data class FlowerListUiState(
     val flowerList: List<FlowerModel>,
     val selectedMonths: Set<Month> = setOf(),
-    val selectedFlowers: Set<FlowerModel> = setOf(),
+    val flippedCards: Set<FlowerModel> = setOf(),
+    val flowerDescriptions: Map<String, String> = emptyMap(),
 ) {
 
     val matchingFlowers: List<FlowerModel>

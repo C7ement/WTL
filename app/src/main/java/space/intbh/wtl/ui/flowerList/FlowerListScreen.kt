@@ -1,6 +1,6 @@
 @file:OptIn(
     ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalLayoutApi::class
+    ExperimentalFoundationApi::class
 )
 
 package space.intbh.wtl.ui.flowerList
@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import space.intbh.wtl.repository.FlowerRepository
+import space.intbh.wtl.ui.flowerList.composant.FlowerCard
 import space.intbh.wtl.ui.flowerList.composant.MonthSelectorPopup
 
 
@@ -56,7 +57,14 @@ fun FlowerListScreen() {
                 Modifier.padding(padding)
             ) {
                 items(uiState.matchingFlowers.size,
-                    itemContent = { FlowerCard(uiState.flowerList[it]) }
+                    itemContent = {
+                        FlowerCard(
+                            uiState.flowerList[it],
+                            desc = uiState.flowerDescriptions[uiState.flowerList[it].name] ?: "",
+                            flipped = viewModel.uiState.value.flippedCards.contains(uiState.flowerList[it]),
+                            onTap = viewModel::flipCard
+                        )
+                    }
                 )
             }
         } else {

@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package space.intbh.wtl.ui.flowerList
+package space.intbh.wtl.ui.flowerList.composant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,16 +16,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import space.intbh.wtl.model.FlowerModel
-import space.intbh.wtl.ui.flowerList.composant.CircularYearView
 import space.intbh.wtl.util.getAvailabilityText
 
 @Composable
-fun FlowerCard(flower: FlowerModel) {
+fun FlowerCard(flower: FlowerModel, desc: String, flipped: Boolean, onTap: (FlowerModel) -> Unit) {
     Box(Modifier.padding(10.dp)) {
-        val showDetail = remember { mutableStateOf(true) }
-        Card(onClick = { showDetail.value = !showDetail.value }) {
-            if (showDetail.value) Verso(flower) else Recto(flower)
+        Card(onClick = { onTap(flower) }) {
+            Box {
+
+
+
+                    Recto(flower)
+                    if (flipped)
+                        Verso(flower, desc)
+            }
         }
     }
 }
@@ -51,23 +57,7 @@ fun Recto(flower: FlowerModel) {
                 CircularYearView(flower.months)
             }
         }
-        Box(
-            Modifier.padding(10.dp)
-        ) {
-            Text(
-                flower.name,
-                style = MaterialTheme.typography.titleSmall
-            )
-        }
-    }
-}
-
-@Composable
-fun Verso(flower: FlowerModel) {
-    Box(Modifier.padding(10.dp)) {
-        Box(
-            Modifier.padding(10.dp)
-        ) {
+        Box(Modifier.padding(10.dp)) {
             Column {
                 Text(
                     flower.name,
@@ -75,6 +65,24 @@ fun Verso(flower: FlowerModel) {
                 )
                 Text(
                     getAvailabilityText(flower.months),
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Verso(flower: FlowerModel, desc: String) {
+    Card(Modifier.fillMaxSize()) {
+        Box(Modifier.padding(10.dp)) {
+            Column {
+                Text(
+                    flower.name,
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Text(
+                    desc,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
