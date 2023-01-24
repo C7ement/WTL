@@ -24,8 +24,7 @@ fun getAvailabilityText(months: List<Month>): String {
         timeRanges.last().end = timeRanges.first().end
         timeRanges = timeRanges.subList(1, timeRanges.size)
     }
-    timeRanges = replaceDuos(timeRanges)
-    return joinStrings(timeRanges.map { it.toString() })
+    return joinStrings(timeRanges)
 }
 
 data class TimeRange(val start: Int, var end: Int) {
@@ -53,24 +52,18 @@ data class TimeRange(val start: Int, var end: Int) {
     }
 }
 
-fun replaceDuos(ranges: List<TimeRange>): List<TimeRange> {
-    return ranges.fold(listOf()) { list, range ->
-        if (range.length == 2)
-            list
-                .plus(TimeRange.oneMonth(range.start))
-                .plus(TimeRange.oneMonth(range.end))
-        else list + range
-    }
-}
-
-fun joinStrings(strings: List<String>): String {
-    strings.map {}
-    return when (strings.size) {
+fun joinStrings(ranges: List<TimeRange>): String {
+    return when (ranges.size) {
         0 -> ""
-        1 -> strings.first() + "."
+        1 -> ranges.first().toString() + "."
         else -> {
-            val allButLast = strings.subList(0, strings.size - 1)
-            "${allButLast.joinToString(", ")} et ${strings.last()}."
+            var allButLast = ranges.subList(0, ranges.size - 1)
+            var last = ranges.last()
+            if (ranges.last().length == 2) {
+                 allButLast = allButLast + TimeRange.oneMonth(ranges.last().start)
+                 last = TimeRange.oneMonth(ranges.last().end)
+            }
+            allButLast.joinToString(", ") + " et $last."
         }
     }.replaceFirstChar { it.uppercase() }
 }

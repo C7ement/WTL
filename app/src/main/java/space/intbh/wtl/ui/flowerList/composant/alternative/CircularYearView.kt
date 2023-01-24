@@ -17,7 +17,6 @@ const val DEG_TO_RAD = Math.PI.toFloat() / 180f
 
 @Composable
 fun CircularYearView(months: List<Month>) {
-    val monthIndexes = months.map { it.ordinal }
     val color = MaterialTheme.colorScheme.secondary
     Canvas(
         modifier = Modifier
@@ -28,9 +27,10 @@ fun CircularYearView(months: List<Month>) {
         val outerRadius = center * .8f
         val innerRadius = outerRadius * .8f
 
-        for (i in 0..11) {
-            if (!monthIndexes.contains(i)) continue
-            val degree = (90-i * 30    ) * DEG_TO_RAD
+        for (month in Month.values()) {
+            val index = month.ordinal
+            if (!months.contains(month)) continue
+            val degree = (90-index * 30    ) * DEG_TO_RAD
 
             val xStart = center + (innerRadius * cos(degree))
             val yStart = center + (innerRadius * sin(degree))
@@ -56,7 +56,7 @@ fun CircularYearView(months: List<Month>) {
                 close()
             }
             drawPath(
-                backgroundPath, color = color,
+                backgroundPath, color = month.color,
             );
         }
     }

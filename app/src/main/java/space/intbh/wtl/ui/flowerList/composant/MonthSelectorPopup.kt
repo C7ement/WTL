@@ -34,7 +34,6 @@ fun MonthSelectorPopup(
         shape = MaterialTheme.shapes.large,
         color = MaterialTheme.colorScheme.background
     ) {
-        val lightColor = MaterialTheme.colorScheme.secondary
         val darkColor = MaterialTheme.colorScheme.surfaceVariant
         Column(horizontalAlignment = Alignment.End) {
             FlowRow(
@@ -48,18 +47,18 @@ fun MonthSelectorPopup(
                             AnnotatedString(month.name),
                             modifier = Modifier
                                 .background(
-                                    color = if (selected) lightColor else Color.Transparent,
+                                    color = if (selected) month.color else Color.Transparent,
                                     shape = RoundedCornerShape(4.dp)
                                 )
                                 .border(
-                                    BorderStroke(1.dp, lightColor),
+                                    BorderStroke(1.dp, month.color),
                                     shape = RoundedCornerShape(4.dp),
                                 )
                                 .padding(8.dp),
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                             onClick = { if (selected) onUnselect(month) else onSelect(month) },
-                            style = TextStyle(color = if (selected) darkColor else lightColor),
+                            style = TextStyle(color = if (selected) darkColor else month.color),
                         )
                     }
                 }
