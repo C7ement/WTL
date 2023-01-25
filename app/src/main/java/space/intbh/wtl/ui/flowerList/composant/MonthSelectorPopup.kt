@@ -64,7 +64,7 @@ fun MonthSelectorPopup(
                 }
             }
             OutlinedButton(onClick = onDismiss, Modifier.padding(8.dp)) {
-                Text("Fermer")
+                Text("Fermer", color = MaterialTheme.colorScheme.secondary)
             }
         }
     }

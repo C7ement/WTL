@@ -17,7 +17,6 @@ import space.intbh.wtl.model.FlowerModel
 import space.intbh.wtl.model.Month
 import space.intbh.wtl.repository.FlowerRepository
 import space.intbh.wtl.repository.WikipediaRepository
-import java.util.concurrent.Executors
 
 class FlowerListViewModel(
     application: Application
@@ -73,7 +72,8 @@ class FlowerListViewModel(
                 val descriptionData = if (cached != null) {
                     cached
                 } else {
-                    val res = WikipediaRepository().searchAndGEtPage(flower.name)
+
+                    val res = WikipediaRepository().searchAndGetPage(flower.name)
 
                     val descriptionData = DescriptionData(
                         flower.name,
@@ -91,7 +91,5 @@ class FlowerListViewModel(
                 }
             }
         }
-
     }
-
 }

@@ -22,17 +22,15 @@ class WikipediaRepository {
         return search ?: listOf()
     }
 
-    suspend fun getPageContent(pageId: String): WikipediaPageContent {
+    private suspend fun getPageContent(pageId: String): WikipediaPageContent {
         val response = wikipediaApi.getPageContent(pageId)
         val pages = response.body()?.query?.pages
         return pages?.values?.firstOrNull()
             ?: WikipediaPageContent(0, "", "Auncun résultats")
     }
 
-    suspend fun searchAndGEtPage(pageTitle: String): WikipediaPageContent {
-
+    suspend fun searchAndGetPage(pageTitle: String): WikipediaPageContent {
         val searchResult = search(pageTitle.split("-").first())
-
         if (searchResult.isEmpty())
             return WikipediaPageContent(0, "", "Auncun résultats")
         return getPageContent(searchResult.first().pageid.toString())
