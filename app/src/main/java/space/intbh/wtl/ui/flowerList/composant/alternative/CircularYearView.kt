@@ -17,7 +17,6 @@ const val DEG_TO_RAD = Math.PI.toFloat() / 180f
 
 @Composable
 fun CircularYearView(months: List<Month>) {
-    val color = MaterialTheme.colorScheme.secondary
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
