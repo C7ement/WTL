@@ -25,24 +25,18 @@ class WikipediaRepository {
     suspend fun getPageContent(pageId: String): WikipediaPageContent {
         val response = wikipediaApi.getPageContent(pageId)
         val pages = response.body()?.query?.pages
-        if (pages != null) {
-            for ((_, page) in pages) {
-                return page
-            }
-        }
-        return WikipediaPageContent(0, "", "")
+        return pages?.values?.firstOrNull()
+            ?: WikipediaPageContent(0, "", "Auncun résultats")
     }
 
-    suspend fun searchAndGEtPage(pageTitle: String): SearchResult {
+    suspend fun searchAndGEtPage(pageTitle: String): WikipediaPageContent {
 
-        val res = search(pageTitle.split("-").first())
+        val searchResult = search(pageTitle.split("-").first())
 
-        if (res.isEmpty()) return SearchResult(res, WikipediaPageContent(0,"0","No Results"))
-        val res2 = getPageContent(res.first().pageid.toString())
-        return SearchResult(res, res2)
-        // Use the page object here
+        if (searchResult.isEmpty())
+            return WikipediaPageContent(0, "", "Auncun résultats")
+        return getPageContent(searchResult.first().pageid.toString())
     }
-
 
 
 }

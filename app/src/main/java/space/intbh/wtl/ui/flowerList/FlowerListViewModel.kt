@@ -35,9 +35,6 @@ class FlowerListViewModel(
     )
     val uiState: StateFlow<FlowerListUiState> = _uiState.asStateFlow()
 
-    init {
-        loadDescriptions()
-    }
 
     fun selectMonth(month: Month) {
         _uiState.update { current ->
@@ -62,49 +59,39 @@ class FlowerListViewModel(
                 )
             )
         }
+        loadFlowerDescriptionIfNeeded(flower);
     }
 
-    fun loadDescriptions() {
+    private fun loadFlowerDescriptionIfNeeded(flower: FlowerModel) {
 
-        val flowers = uiState.value.flowerList
-        for (flower in flowers) {
-            viewModelScope.launch {
+        if (uiState.value.flowerDescriptions.contains(flower.name)) return
 
-                withContext(Dispatchers.IO) {
-                    val cached = database.descriptionDataDao().getById(flower.name)
-                    if (cached == null) {
-                        val searchResult =
-                            WikipediaRepository().searchAndGEtPage(flower.name)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val cached = database.descriptionDataDao().getById(flower.name)
 
-                        val descriptionData = DescriptionData(
-                            flower.name,
-                            searchResult.res2.title,
-                            searchResult.res2.extract
-                        )
-                        database.descriptionDataDao().insert(
-                            descriptionData
-                        )
+                val descriptionData = if (cached != null) {
+                    cached
+                } else {
+                    val res = WikipediaRepository().searchAndGEtPage(flower.name)
 
-                        _uiState.update { current ->
-                            current.copy(
-                                flowerDescriptions = current.flowerDescriptions.plus(
-                                   descriptionData.flowerName to descriptionData
-                                )
-                            )
-                        }
-                    } else {
-                        _uiState.update { current ->
-                            current.copy(
-                                flowerDescriptions = current.flowerDescriptions.plus(
-                                    flower.name to cached
-                                )
-                            )
-                        }
-                    }
+                    val descriptionData = DescriptionData(
+                        flower.name,
+                        res.title,
+                        res.extract
+                    )
+                    database.descriptionDataDao().insert(descriptionData)
+                    descriptionData
+                }
+                _uiState.update { current ->
+                    current.copy(
+                        flowerDescriptions = current.flowerDescriptions
+                            .plus(descriptionData.flowerName to descriptionData)
+                    )
                 }
             }
-
         }
+
     }
 
 }
