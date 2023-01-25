@@ -57,7 +57,7 @@ fun FlowerListScreen( viewModel : FlowerListViewModel) {
                     val flower = list[index]
                     FlowerCard(
                         flower,
-                        desc = uiState.flowerDescriptions[flower.name] ?: "loading" ,
+                        descriptionData = uiState.flowerDescriptions[flower.name] ,
                         flipped = viewModel.uiState.value.flippedCards.contains(flower),
                         onTap = viewModel::flipCard
                     )

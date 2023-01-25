@@ -70,35 +70,37 @@ class FlowerListViewModel(
         for (flower in flowers) {
             viewModelScope.launch {
 
-                    withContext(Dispatchers.IO) {
-                        val cached = database.descriptionDataDao().getById(flower.name)
-                        if (cached == null) {
+                withContext(Dispatchers.IO) {
+                    val cached = database.descriptionDataDao().getById(flower.name)
+                    if (cached == null) {
                         val searchResult =
                             WikipediaRepository().searchAndGEtPage(flower.name)
 
+                        val descriptionData = DescriptionData(
+                            flower.name,
+                            searchResult.res2.title,
+                            searchResult.res2.extract
+                        )
                         database.descriptionDataDao().insert(
-                            DescriptionData(
-                                flower.name,
-                                "loaded" + searchResult.res2.extract
-                            )
+                            descriptionData
                         )
 
                         _uiState.update { current ->
                             current.copy(
                                 flowerDescriptions = current.flowerDescriptions.plus(
-                                    flower.name to searchResult.res2.extract
+                                   descriptionData.flowerName to descriptionData
                                 )
                             )
                         }
                     } else {
-                            _uiState.update { current ->
-                                current.copy(
-                                    flowerDescriptions = current.flowerDescriptions.plus(
-                                        flower.name to cached.description
-                                    )
+                        _uiState.update { current ->
+                            current.copy(
+                                flowerDescriptions = current.flowerDescriptions.plus(
+                                    flower.name to cached
                                 )
-                            }
+                            )
                         }
+                    }
                 }
             }
 

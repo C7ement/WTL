@@ -1,5 +1,6 @@
 package space.intbh.wtl.ui.flowerList
 
+import space.intbh.wtl.database.DescriptionData
 import space.intbh.wtl.model.FlowerModel
 import space.intbh.wtl.model.Month
 import space.intbh.wtl.model.SearchResult
@@ -8,7 +9,7 @@ data class FlowerListUiState(
     val flowerList: List<FlowerModel>,
     val selectedMonths: Set<Month> = setOf(),
     val flippedCards: Set<FlowerModel> = setOf(),
-    val flowerDescriptions: Map<String, String> = emptyMap(),
+    val flowerDescriptions: Map<String, DescriptionData> = emptyMap(),
 ) {
 
     val matchingFlowers: List<FlowerModel>
