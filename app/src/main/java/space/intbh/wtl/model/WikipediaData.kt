@@ -22,4 +22,11 @@ interface WikipediaSearchApi {
 
 data class WikipediaSearchResponse(val query: WikipediaSearchResult)
 data class WikipediaSearchResult(val search: List<WikipediaSearchResultItem>)
-data class WikipediaSearchResultItem(val pageid: Int, val title: String, val snippet: String)
+data class WikipediaSearchResultItem(val pageid: Int, val title: String, val snippet: String) {
+    fun isValid(): Boolean {
+        val matchingWords = listOf("fleur", "plante")
+        return matchingWords.any { snippet.contains(it) }
+    }
+}
+
+data class SearchResult(val res1: List<WikipediaSearchResultItem>, val res2: WikipediaPageContent)

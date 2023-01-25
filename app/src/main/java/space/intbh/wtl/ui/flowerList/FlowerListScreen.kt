@@ -6,7 +6,7 @@
 package space.intbh.wtl.ui.flowerList
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
@@ -14,19 +14,14 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import kotlinx.coroutines.selects.select
-import space.intbh.wtl.repository.FlowerRepository
 import space.intbh.wtl.ui.flowerList.composant.FlowerCard
 import space.intbh.wtl.ui.flowerList.composant.MonthSelectorPopup
 
 
 @Composable
-fun FlowerListScreen() {
-    val context = LocalContext.current
-    val flowerRepository = FlowerRepository(context.resources, context.assets)
-    val viewModel = FlowerListViewModel(flowerRepository)
+fun FlowerListScreen( viewModel : FlowerListViewModel) {
+
     val uiState by viewModel.uiState.collectAsState()
     val openDialog = remember { mutableStateOf(false) }
 
@@ -62,7 +57,7 @@ fun FlowerListScreen() {
                     val flower = list[index]
                     FlowerCard(
                         flower,
-                        desc = uiState.flowerDescriptions[flower.name] ?: "",
+                        desc = uiState.flowerDescriptions[flower.name] ?: "loading" ,
                         flipped = viewModel.uiState.value.flippedCards.contains(flower),
                         onTap = viewModel::flipCard
                     )

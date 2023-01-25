@@ -49,7 +49,7 @@ enum class Month {
                 5, 6, 7 -> rgb(255, 215, 0)
                 else -> rgb(243, 188, 46)
             }
-            return Color(ColorUtils.blendARGB(gr, PurpleGrey80.toArgb(), 0.5f))
+            return Color(gr)
         }
 }
 

@@ -1,17 +1,17 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package space.intbh.wtl
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import space.intbh.wtl.ui.flowerList.FlowerListScreen
+import space.intbh.wtl.ui.flowerList.FlowerListViewModel
 import space.intbh.wtl.ui.theme.WTLTheme
 
 
@@ -25,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    FlowerListScreen()
+                    FlowerListScreen(
+                        FlowerListViewModel(application)
+                    )
                 }
             }
         }
@@ -33,13 +35,9 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     WTLTheme {
-        FlowerListScreen()
     }
 }

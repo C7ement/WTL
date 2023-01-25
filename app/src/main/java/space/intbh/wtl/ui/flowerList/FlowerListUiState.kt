@@ -2,6 +2,7 @@ package space.intbh.wtl.ui.flowerList
 
 import space.intbh.wtl.model.FlowerModel
 import space.intbh.wtl.model.Month
+import space.intbh.wtl.model.SearchResult
 
 data class FlowerListUiState(
     val flowerList: List<FlowerModel>,
